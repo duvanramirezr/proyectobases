@@ -51,7 +51,7 @@ public class RepresentanteDAO {
         }
         return r;
     }
-       public boolean autenticacionrep(String nombre,String contraseña) {
+       public String autenticacionrep(String nombre,String contraseña) {
         Representante r = new Representante();
         PreparedStatement pst = null;
         ResultSet rs = null;
@@ -71,7 +71,7 @@ public class RepresentanteDAO {
                     
           if(rs.next()){
              r.setNombre(nombre);
-          return true;
+          return "";
           }
                  
         } catch (Exception e) {
@@ -85,7 +85,7 @@ public class RepresentanteDAO {
 
         
         
-    return false;
+    return "error";
     
     }
         public String crearCliente (Cliente cliente) throws SQLException {

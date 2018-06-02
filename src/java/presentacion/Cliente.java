@@ -10,8 +10,7 @@ import util.RHException;
 public class Cliente {
 
     public static void main(String[] args) throws ServletException {
-        Controlador c = new Controlador();
-        ClienteDAO cl= new ClienteDAO();
+     //
 
         
       //  try {

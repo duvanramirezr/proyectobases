@@ -49,7 +49,7 @@ public class ClienteDAO {
         }
         return c;
     }
-    public String autenticacioCli(String nombre,int contraseña) {
+    public String autenticacioCli(String nombre,String contraseña) {
         Cliente cl = new Cliente();          
         PreparedStatement pst = null;
         ResultSet rs = null;
@@ -60,7 +60,7 @@ public class ClienteDAO {
             Connection conexion = ServiceLocator.getInstance().tomarConexion(user,contra);
             pst = conexion.prepareStatement(strSQL);
             pst.setString(1,nombre);
-            pst.setInt(2, contraseña);
+            pst.setString(2, contraseña);
             rs = pst.executeQuery();        
           if(rs.next()){
           cl.setNombre(nombre);

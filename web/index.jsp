@@ -53,7 +53,7 @@
                 		<span class="login100-form-title p-b-41">
 					Account Login
 				</span>
-				<form class="login100-form validate-form p-b-33 p-t-5">
+                            <form class="login100-form validate-form p-b-33 p-t-5" action="Login" method="post">
                                 <!--EN ESTA SECCION SE DEFININEN LOS CAMPOS QUE EL USUARIO DEBE LLENAR PARA SER ENVIADOS A LA BASE DE DATOS E INICIAR SESION-->
 
 
@@ -70,9 +70,11 @@
 					</div>
                                          <div class="wrap-input100 validate-input">
                                          <!--SECCION QUE PERMITE ELEGIR UN SOLO ROL PARA INICIAR SESION -->
+                                          
                                             <input  type="radio" name="cargo" value="representante"> Representante<br>
-                                            <input  type="radio" name="cargo" value="cliente"> Cliente<br>
-                                        </div>
+                                            <input  type="radio" name="cargo" value="cliente"> Cliente
+                                       
+                                         </div>
 					<div class="container-login100-form-btn m-t-32">
                                          <!--BOTON QUE PERMITE ENVIAR A LA BASE DE DATOS LA INFORMACION QUE SE DIGITO EN LOS CAMPOS ANTERIORES PARA INICIAR SESION-->
 						<button class="login100-form-btn">

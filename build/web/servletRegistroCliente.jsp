@@ -48,7 +48,7 @@
 				<span class="login100-form-title p-b-41">
 					REGISTRAR CLIENTE
 				</span>
-				<form class="login100-form validate-form p-b-33 p-t-5">
+				<form class="login100-form validate-form p-b-33 p-t-5" >
                                     <!--EN ESTA SECCION SE DEFININEN LOS CAMPOS QUE EL USUARIO DEBE LLENAR PARA SER ENVIADOS A LA BASE DE DATOS Y REGISTRAR EL NUEVO CLIENTE-->
 
 					<div class="wrap-input100 validate-input" data-validate = "Enter idcliente">
