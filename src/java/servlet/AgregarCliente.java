@@ -26,7 +26,7 @@ import util.RHException;
  *
  * @author Alejandro
   
- */@WebServlet(name = "AgregarCliente", urlPatterns = {"/AgregarCliente"})
+ */@WebServlet(name = "Registrar", urlPatterns = {"/Registrar"})
 public class AgregarCliente extends HttpServlet {
      private Cliente cliente;
        private Modelo model;
@@ -45,12 +45,12 @@ public class AgregarCliente extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         
         
-    String idcliente = request.getParameter("id_cliente");
+    String idcliente = request.getParameter("idcliente");
     String nombre=request.getParameter("nombre");
     String apellido=request.getParameter("apellido");
     String telefono=request.getParameter("telefono");
     String contraseña=request.getParameter("contrasena");
-    String idrepresentante=request.getParameter("id_representante");
+    String idrepresentante=request.getParameter("idrepresentante");
         PrintWriter out = response.getWriter();
         int id=Integer.parseInt(idcliente);
         int con= Integer.parseInt(contraseña);
@@ -58,7 +58,7 @@ public class AgregarCliente extends HttpServlet {
       
                        
               
-             String reg2=  incluirCliente(id, nombre, apellido, telefono, con,idrep);
+            String reg2=  incluirCliente(id, nombre, apellido, telefono, con,idrep);
              
                      
             if(reg2.equals("")){

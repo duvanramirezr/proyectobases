@@ -48,7 +48,7 @@
 				<span class="login100-form-title p-b-41">
 					REGISTRAR CLIENTE
 				</span>
-				<form class="login100-form validate-form p-b-33 p-t-5" >
+				<form class="login100-form validate-form p-b-33 p-t-5" action="Registrar" method="post" >
                                     <!--EN ESTA SECCION SE DEFININEN LOS CAMPOS QUE EL USUARIO DEBE LLENAR PARA SER ENVIADOS A LA BASE DE DATOS Y REGISTRAR EL NUEVO CLIENTE-->
 
 					<div class="wrap-input100 validate-input" data-validate = "Enter idcliente">
@@ -76,7 +76,7 @@
 					</div>
 					<div class="wrap-input100 validate-input" data-validate="Enter contraseña">
                                         <!--CAMPO PARA PODER DIGITAR LA CONTRASEÑA DEL NUEVO CLIENTE-->
-						<input class="input100" type="text" name="contraseña" placeholder="Contraseña">
+						<input class="input100" type="text" name="contrasena" placeholder="Contraseña">
 						<span class="focus-input100" data-placeholder="&#xe80f;"></span>
 					</div>
 					<div class="wrap-input100 validate-input" data-validate="Enter idrepresentante">
