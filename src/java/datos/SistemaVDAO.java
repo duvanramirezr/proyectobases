@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 import negocio.*;
@@ -117,7 +118,7 @@ public class SistemaVDAO {
 
     }
 
-    public Inventario_Producto ConsultarInventario(int id_product) {
+ /*   public Inventario_Producto ConsultarInventario(int id_product) {
         Inventario_Producto ip = new Inventario_Producto();
         try {
             String strSQL = "SELECT ID_PRODUCTO, CANTIDAD FROM NATAME.INVENTARIO_PRODUCTO WHERE ID_PRODUCTO = ?";
@@ -178,6 +179,181 @@ public class SistemaVDAO {
         } finally {
             ServiceLocator.getInstance().liberarConexion();
         }
+    }*/
+     public Inventario_Producto ConsultarInventario(int id_product) {
+        Inventario_Producto ip = new Inventario_Producto();
+        try {
+            String strSQL = "SELECT ID_PRODUCTO, CANTIDAD FROM NATAME.REGION_PRODUCTO WHERE ID_PRODUCTO = ?";
+            Connection conexion = ServiceLocator.getInstance().tomarConexion(user,contra);
+            PreparedStatement prepStmt = conexion.prepareStatement(strSQL);
+            prepStmt.setInt(1, id_product);
+            ResultSet rs = prepStmt.executeQuery();
+            if (rs.next()) {
+                ip.setProducto(id_product);
+                ip.setCantidad(rs.getInt("Cantidad"));
+            } else {
+                JOptionPane.showMessageDialog(null, "No se encontro inventario");
+            }
+            rs.close();
+        } catch (Exception e) {
+            System.out.println("ERROR CONSULTANDO INVENTARIO: " + e.getMessage());
+        } finally {
+            ServiceLocator.getInstance().liberarConexion();
+        }
+        return ip;
+    }
+
+    public Venta_Producto ConsultarVentaProduc(int id_product) {
+        Venta_Producto vp = new Venta_Producto();
+        try {
+            String strSQL = "SELECT ID_PRODUCTO, CANTIDAD FROM NATAME.VENTA_PRODUCTO WHERE ID_PRODUCTO = ?";
+            Connection conexion = ServiceLocator.getInstance().tomarConexion(user,contra);
+            PreparedStatement prepStmt = conexion.prepareStatement(strSQL);
+            prepStmt.setInt(1, id_product);
+            ResultSet rs = prepStmt.executeQuery();
+            if (rs.next()) {
+                vp.setId_producto(id_product);
+                vp.setCantidad(rs.getInt("CANTIDAD"));
+            } else {
+                JOptionPane.showMessageDialog(null, "No se encontro la venta");
+            }
+            rs.close();
+        } catch (Exception e) {
+            System.out.println("ERROR CONSULTANDO VENTA: " + e.getMessage());
+        } finally {
+            ServiceLocator.getInstance().liberarConexion();
+        }
+        return vp;
+    }
+
+    public void actualizarInvProduc(Inventario_Producto ip) throws RHException {
+        Producto p = new Producto();
+        try {
+            
+            
+            String strSQL = "UPDATE NATAME.INVENTARIO_PRODUCTO SET CANTIDAD = ? WHERE ID_PRODUCTO = ?" ;
+            Connection conexion = ServiceLocator.getInstance().tomarConexion(user,contra);
+            PreparedStatement prepStmt = conexion.prepareStatement(strSQL);
+            
+           // ResultSet rs = prepStmt.executeQuery();
+            //while(rs.next()){
+                System.out.println("Prueba1: " + ip.getCantidad());
+                prepStmt.setInt(1, ip.getCantidad());
+                System.out.println("Prueba2: " + ip.getProducto());
+                prepStmt.setInt(2, ip.getProducto());
+            //}    
+            prepStmt.executeUpdate();
+            prepStmt.close();
+            
+            
+            ServiceLocator.getInstance().commit();
+        } catch (Exception e) {
+            throw new RHException("Inventario", "Inventario NO cambiado" + e.getMessage());
+        } finally {
+            ServiceLocator.getInstance().liberarConexion();
+        }
+    }
+    
+    public  ArrayList<Producto> obtenerProducto() throws RHException {
+         ArrayList<Producto> lista = new ArrayList<Producto>();
+          
+    try{
+        String strSQL = "SELECT * FROM NATAME.PRODUCTO";
+        Connection conexion = ServiceLocator.getInstance().tomarConexion(user,contra);   
+         PreparedStatement prepStmt = conexion.prepareStatement(strSQL);
+         
+         ResultSet rs = prepStmt.executeQuery();
+        
+        while(rs.next()){
+            Producto p = new Producto();
+            
+            p.setId_producto(rs.getInt("ID_PRODUCTO"));
+            p.setNombre(rs.getString("NOMBRE"));
+            p.setId_categoria(rs.getInt("ID_CATEGORIA"));
+            p.setValor(rs.getDouble("VALOR"));
+            p.setDetalle(rs.getString("DETALLE"));
+            
+            lista.add(p);
+        }
+        prepStmt.executeUpdate();
+        prepStmt.close();
+        ServiceLocator.getInstance().commit();
+    } catch (Exception e) {
+            throw new RHException("Producto", "Producto No ingresado" + e.getMessage());
+        } finally {
+            ServiceLocator.getInstance().liberarConexion();
+        }
+        
+    return lista;
+    }
+    
+    public  Producto obtenerProducto(int id_product) {
+        Producto p = new Producto();
+        try {
+            String strSQL = "SELECT ID_PRODUCTO, NOMBRE, ID_CATEGORIA, VALOR, DETALLE FROM NATAME.PRODUCTO  WHERE ID_PRODUCTO = ?";
+            Connection conexion = ServiceLocator.getInstance().tomarConexion(user,contra);
+            PreparedStatement prepStmt = conexion.prepareStatement(strSQL);
+            prepStmt.setInt(1, id_product);
+            ResultSet rs = prepStmt.executeQuery();
+            while (rs.next()) {
+                p.setId_producto(id_product);
+                p.setNombre(rs.getString("NOMBRE"));
+                p.setId_categoria(rs.getInt("ID_CATEGORIA"));
+                p.setValor(rs.getDouble("VALOR"));
+                p.setDetalle(rs.getString("DETALLE"));
+            } 
+            rs.close();
+        } catch (Exception e) {
+            System.out.println("ERROR CONSULTANDO VENTA: " + e.getMessage());
+        } finally {
+            ServiceLocator.getInstance().liberarConexion();
+        }
+        return p;
+    }
+    
+    public void registrarProducto(Producto p) throws RHException {
+        try {
+
+            String strSQL = "INSERT INTO NATAME.PRODUCTO (ID_PRODUCTO, NOMBRE, ID_CATEGORIA, VALOR, DETALLE) VALUES (?,?,?,?,?)";
+            Connection conexion = ServiceLocator.getInstance().tomarConexion(user,contra);
+            PreparedStatement prepStmt = conexion.prepareStatement(strSQL);
+            prepStmt.setInt(1, p.getId_producto());
+            prepStmt.setString(2, p.getNombre());
+            prepStmt.setInt(3, p.getId_categoria());
+            prepStmt.setDouble(4, p.getValor());
+            prepStmt.setString(5, p.getDetalle());
+            prepStmt.executeUpdate();
+            prepStmt.close();
+            ServiceLocator.getInstance().commit();
+
+        } catch (SQLException e) {
+            throw new RHException("Producto", "No pudo crear producto" + e.getMessage());
+        } finally {
+            ServiceLocator.getInstance().liberarConexion();
+        }
+        
+       
+    }
+    
+     public void actualizarProducto(Producto p) throws RHException {
+        try {
+            String strSQL = "UPDATE NATAME.PRODUCTO SET NOMBRE = ?, ID_CATEGORIA = ?, VALOR = ?, DETALLE = ? WHERE ID_PRODUCTO = ?";
+            Connection conexion = ServiceLocator.getInstance().tomarConexion(user,contra);
+            PreparedStatement prepStmt = conexion.prepareStatement(strSQL);
+            prepStmt.setString(1, p.getNombre());
+            prepStmt.setInt(2, p.getId_categoria());
+            prepStmt.setDouble(3, p.getValor());
+            prepStmt.setString(4, p.getDetalle());
+            prepStmt.setInt(5, p.getId_producto());
+            prepStmt.executeUpdate();
+            prepStmt.close();
+            ServiceLocator.getInstance().commit();
+        } catch (Exception e) {
+            throw new RHException("Inventario", "Inventario NO cambiado" + e.getMessage());
+        } finally {
+            ServiceLocator.getInstance().liberarConexion();
+        }
+
     }
 
 }
