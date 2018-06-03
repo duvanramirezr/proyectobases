@@ -53,7 +53,7 @@ public class ClienteDAO {
         Cliente cl = new Cliente();          
         PreparedStatement pst = null;
         ResultSet rs = null;
-        String msjError="";
+        String msjError="error86587";
         
         try {
             String strSQL = " SELECT * FROM CLIENTE WHERE NOMBRE = ? and CONTRASENA = ?";
@@ -64,11 +64,11 @@ public class ClienteDAO {
             rs = pst.executeQuery();        
           if(rs.next()){
           cl.setNombre(nombre);
-        
+            msjError="1";
           }
                  
         } catch (SQLException e) {
-           msjError="Error autem"+e;
+           msjError="error";
         }
         
         finally {

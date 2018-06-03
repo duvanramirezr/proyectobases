@@ -55,7 +55,7 @@ public class RepresentanteDAO {
         Representante r = new Representante();
         PreparedStatement pst = null;
         ResultSet rs = null;
-        
+        String res= "error";
         
         try {
             
@@ -71,7 +71,7 @@ public class RepresentanteDAO {
                     
           if(rs.next()){
              r.setNombre(nombre);
-          return "";
+          res= "";
           }
                  
         } catch (Exception e) {
@@ -85,7 +85,7 @@ public class RepresentanteDAO {
 
         
         
-    return "error";
+    return res;
     
     }
         public String crearCliente (Cliente cliente) throws SQLException {

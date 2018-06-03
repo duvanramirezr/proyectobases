@@ -37,13 +37,7 @@
 <!--===============================================================================================-->
     </head>
     <body>
-        <div class="topnav">
-        <!--EN ESTE BLOQUE SE DEFINE LA BARRA DE NAVEGACION-->
-        <a class="active" href="index.jsp">Login</a>
-        <a class="active" href="servletRegistroCliente.jsp">Registrar Cliente</a>
-        <a class="active" href="Pedido.jsp">Realizar Pedido</a>
-        <a class="active" href="Carro">Carro</a>
-</div>
+        
         <div class="limiter">
        <!--EN ESTE BLOQUE SE DEFINEN LOS CAMPOS NECESARIOS PARA EL INICIO DE SESION-->
 

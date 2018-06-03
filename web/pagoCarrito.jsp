@@ -39,7 +39,7 @@
         idped++;
     }
         
-    Pedido pedido = SistemaVDAO.obtenerPedido(1234576);
+    Pedido pedido = SistemaVDAO.obtenerPedido(999);
 
 %>
 <html>
@@ -49,6 +49,13 @@
     </head>
     <body>
         <h1>Pago</h1>
+        <div class="topnav">
+        <!--EN ESTE BLOQUE SE DEFINE LA BARRA DE NAVEGACION-->
+        <a class="active" href="index.jsp">Login</a>
+        <a class="active" href="servletRegistroCliente.jsp">Registrar Cliente</a>
+        <a class="active" href="indexCarrito.jsp">Carro</a>
+        <a class="active" href="registrarProductoCarrito.jsp">Registrar producto</a>
+</div>
         <div>
             <%-- Menu de opciones --%>
             <a href="indexCarrito.jsp">Inicio</a> |

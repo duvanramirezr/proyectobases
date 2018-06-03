@@ -37,7 +37,7 @@ public class Login extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
 
         PrintWriter out = response.getWriter();
-        int cargo = 3;
+        int cargo = 2;
         String usuario = request.getParameter("username");
         String contrasena = request.getParameter("pass");
        // String radioButRep = request.getParameter("cargoRep");
@@ -56,13 +56,14 @@ public class Login extends HttpServlet {
        
 
         String err2 = autenticar(usuario, contrasena, cargo);
-
+        System.out.println("servlet.Login.processRequest() " + err2 );
+        
         if (err2.equals("")) {
             response.sendRedirect("servletRegistroCliente.jsp");
-            System.out.println("servlet.Login.processRequest()");
+            
         } else {
-            if (err2.equals("nada")) {
-                System.out.println("servlet.Login.processRequest() nada");
+            if (err2.equals("1")) {
+               response.sendRedirect("indexCarrito.jsp"); 
             } else {
 
                 request.getSession().setAttribute("reg1", err2);
@@ -73,7 +74,7 @@ public class Login extends HttpServlet {
     }
 
     public String autenticar(String nombre, String contrasena, int perfil) {
-        String res;
+        String res="nada";
         if (perfil == 0) {
             res = model.getInstance().getRdao().autenticacionrep(nombre, contrasena);
         } else {

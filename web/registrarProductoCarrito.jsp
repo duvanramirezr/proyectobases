@@ -19,11 +19,14 @@
         <title>Carrito de compras</title>
     </head>
     <body>
-        <h1>Registrar producto</h1>
-        <div>
-            <a href="indexCarrito.jsp">Inicio</a> |
-            <a href="registrarProductoCarrito.jsp">Registrar Producto</a> |
-        </div>
+        
+        <div class="topnav">
+        <!--EN ESTE BLOQUE SE DEFINE LA BARRA DE NAVEGACION-->
+        <a class="active" href="index.jsp">Login</a>
+        <a class="active" href="servletRegistroCliente.jsp">Registrar Cliente</a>
+        <a class="active" href="indexCarrito.jsp">Carro</a>
+        <a class="active" href="registrarProductoCarrito.jsp">Registrar producto</a>
+</div>
         <br >   
         <%-- En el action del formulario le decimos que llama al Controlador --%>
         <form action="carritoServlet" method="post">

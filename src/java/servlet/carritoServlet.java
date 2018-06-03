@@ -20,6 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.*;
 import javax.servlet.annotation.WebServlet;
+import negocio.Modelo;
 import negocio.Pago;
 import negocio.Pedido;
 import negocio.Venta_Producto;
@@ -32,6 +33,7 @@ import util.RHException;
 @WebServlet(name = "carritoServlet", urlPatterns = {"/carritoServlet"})
 public class carritoServlet extends HttpServlet {
     Inventario_Producto invAct;
+    Modelo model;
     //Para controlar peticiones del tipo GET
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -84,7 +86,7 @@ public class carritoServlet extends HttpServlet {
         p.setId_categoria(Integer.parseInt(request.getParameter("txtCategoria")));
         p.setValor(Double.parseDouble(request.getParameter("txtValor")));
         p.setDetalle(request.getParameter("txtDetalle"));
-       SistemaVDAO.registrarProducto(p);  
+       model.getInstance().getSistemaVDAO().registrarProducto(p);  
        response.sendRedirect("indexCarrito.jsp");
         
     }
@@ -97,22 +99,22 @@ public class carritoServlet extends HttpServlet {
         p.setId_categoria(Integer.parseInt(request.getParameter("txtCategoria")));
         p.setValor(Double.parseDouble(request.getParameter("txtValor")));
         p.setDetalle(request.getParameter("txtDetalle"));
-        SistemaVDAO.actualizarProducto(p);
+        model.getInstance().getSistemaVDAO().actualizarProducto(p);
         response.sendRedirect("indexCarrito.jsp");
         
     }
      private void actualizarInvProducto(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, RHException {
     
-          ArrayList<Producto> lista = SistemaVDAO.obtenerProducto();
+          ArrayList<Producto> lista = model.getInstance().getSistemaVDAO().obtenerProducto();
           for (Producto p : lista) {
              Inventario_Producto inv = new Inventario_Producto();
-             invAct = SistemaVDAO.ConsultarInventario(p.getId_producto());
+             invAct = model.getInstance().getSistemaVDAO().ConsultarInventario(p.getId_producto());
              int cantidad = invAct.getCantidad() - 1;
              inv.setCantidad(cantidad);
              inv.setProducto(p.getId_producto());
              
-             SistemaVDAO.actualizarInvProduc(inv);
+             model.getInstance().getSistemaVDAO().actualizarInvProduc(inv);
               
           }
     /*     
@@ -155,7 +157,7 @@ public class carritoServlet extends HttpServlet {
          
         Venta_Producto vp = new Venta_Producto(); 
          double ValorTotal = 0.0;
-         ArrayList<Producto> lista = SistemaVDAO.obtenerProducto();
+         ArrayList<Producto> lista = model.getInstance().getSistemaVDAO().obtenerProducto();
           for (Producto p : lista) {
               double valor = p.getValor();
               ValorTotal = ValorTotal + valor;
@@ -167,7 +169,7 @@ public class carritoServlet extends HttpServlet {
      private void capturarVenta(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, RHException {
          
-         ArrayList<Producto> lista = SistemaVDAO.obtenerProducto();
+         ArrayList<Producto> lista = model.getInstance().getSistemaVDAO().obtenerProducto();
          //Capturar Pago
           java.util.Date fecha = new Date();
             Pago pago = new Pago();
@@ -224,11 +226,9 @@ public class carritoServlet extends HttpServlet {
             //Capturar pedido
              Pedido pedido = new Pedido();
                         //este parametro debe ser dinamico, es decir, se debe generar en la capa web
-             int idpedido=5454563; 
-            for(int i=0;i<10;i++){
-                idpedido++;
-            }//pero lo dejo estatico para el caso
-            pedido.setId_pedido(1234576);
+             int idpedido; 
+            
+            pedido.setId_pedido(999);
 
                         //como el que se loguea es el cliente, se debe guardar una variable con su id
                         //Y guardarla asi: int id_cliente = request.getParameter("idCliente");
@@ -252,8 +252,8 @@ public class carritoServlet extends HttpServlet {
            System.out.println("rrrrrr"+pedido.getId_cliente());
            System.out.println("rrrrrr"+pedido.getId_pago());
            System.out.println("rrrrrr"+pedido.getFecha());
-           SistemaVDAO.registrarPedido(pedido);
-           SistemaVDAO.registrarVentaProduc(vp);
+           model.getInstance().getSistemaVDAO().registrarPedido(pedido);
+           model.getInstance().getSistemaVDAO().registrarVentaProduc(vp);
 
          
             response.sendRedirect("pagoCarrito.jsp");

@@ -35,12 +35,12 @@
     </head>
     <body>
         <div class="topnav">
-            <!--EN ESTE BLOQUE SE DEFINE LA BARRA DE NAVEGACION-->
-            <a class="active" href="index.jsp">Login</a>
-            <a class="active" href="servletRegistroCliente.jsp">Registrar Cliente</a>
-            <a class="active" href="Pedido.jsp">Realizar Pedido</a>
-            <a class="active" href="Carro">Carro</a>
-        </div>
+        <!--EN ESTE BLOQUE SE DEFINE LA BARRA DE NAVEGACION-->
+        <a class="active" href="index.jsp">Login</a>
+        <a class="active" href="servletRegistroCliente.jsp">Registrar Cliente</a>
+        <a class="active" href="indexCarrito.jsp">Carro</a>
+        <a class="active" href="registrarProductoCarrito.jsp">Registrar producto</a>
+</div>
         <div class="limiter">
         <!--EN ESTE BLOQUE SE DEFINEN LOS CAMPOS NECESARIOS PARA REALIZAR EL REGISTRO DE UN NUEVO CLIENTE-->
 		<div class="container-login100" style="background-image: url('images/bg-01.jpg');">
