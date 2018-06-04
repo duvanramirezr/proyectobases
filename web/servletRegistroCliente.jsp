@@ -53,7 +53,7 @@
 
 					<div class="wrap-input100 validate-input" data-validate = "Enter idcliente">
                                         <!--CAMPO PARA PODER DIGITAR EL ID DEL CLIENTE-->
-						<input class="input100" type="text" name="idcliente" placeholder="id cliente">
+						<input class="input100" type="text" name="idcliente" placeholder="ID Cliente">
 						<span class="focus-input100" data-placeholder="&#xe82a;"></span>
 					</div>
 
@@ -81,7 +81,7 @@
 					</div>
 					<div class="wrap-input100 validate-input" data-validate="Enter idrepresentante">
                                         <!--CAMPO PARA PODER DIGITAR EL ID DEL REPRESENTANTE QUE REGISTRA AL NUEVO CLIENTE-->
-						<input class="input100" type="text" name="idrepresentante" placeholder="Id representante">
+						<input class="input100" type="text" name="idrepresentante" placeholder="ID Representante">
 						<span class="focus-input100" data-placeholder="&#xe82b;"></span>
 					</div>
 					<div class="container-login100-form-btn m-t-32">
