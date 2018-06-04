@@ -32,17 +32,18 @@ public class RepresentanteDAO {
             prepStmt.setInt(1, id_reprs);
             ResultSet rs = prepStmt.executeQuery();
             if (rs.next()) {
-                r.setId_representante(id_reprs);
+                r.setCedula_representante(id_reprs);
                 r.setNombre(rs.getString("NOMBRE"));
                 r.setApellido(rs.getString("APELLIDO"));
                 r.setTelefono(rs.getString("TELEFONO"));
-                r.setContrasena(rs.getInt("CONTRASENA"));
+                r.setContrasena(rs.getString("CONTRASENA"));
                 r.setId_region(rs.getInt("ID_REGION"));
                 r.setId_clasificacion(rs.getInt("ID_CLASIFICACION"));
             } else {
                 JOptionPane.showMessageDialog(null, "No se encontro el representante");
             }
           
+            
             //rs.close();
         } catch (Exception e) {
             System.out.println("ERROR CONSULTANDO REPRESENTANTE: " + e.getMessage());
@@ -51,31 +52,34 @@ public class RepresentanteDAO {
         }
         return r;
     }
-       public String autenticacionrep(String nombre,String contraseña) {
+       public String autenticacionrep(Representante rep) throws SQLException {
+           
         Representante r = new Representante();
         PreparedStatement pst = null;
         ResultSet rs = null;
-        String res= "error";
+        String flag="";
         
         try {
             
-             String strSQL = " SELECT * FROM REPRESENTANTE_VENTA WHERE NOMBRE = ? and CONTRASENA = ?";
-             
-            Connection conexion = ServiceLocator.getInstance().tomarConexion(user,contra);
+            String strSQL = " SELECT * FROM REPRESENTANTES WHERE NOMBRE = ? and CONTRASENA = ?";
+            ServiceLocator.CambioRol(rep.getNombre(), rep.getContrasena());
+            Connection conexion = ServiceLocator.getInstance().tomarConexion(rep.getNombre(),rep.getContrasena());
+               
             pst = conexion.prepareStatement(strSQL);
-            pst.setString(1, nombre);
-            pst.setString(2, contraseña);
+            pst.setString(1, rep.getNombre());
+            pst.setString(2, rep.getContrasena());
             
             rs = pst.executeQuery();
           
                     
           if(rs.next()){
-             r.setNombre(nombre);
-          res= "";
+             r.setNombre(rep.getNombre());
+          flag="true";
           }
                  
-        } catch (Exception e) {
-            System.out.println("Error autem"+e);
+        } catch (SQLException e) {
+            flag=e.getMessage();
+            System.out.println("datos.RepresentanteDAO.autenticacionrep() esto es dentro del metodo de RDAO"+e.getMessage());
         }
         
         finally {
@@ -85,19 +89,42 @@ public class RepresentanteDAO {
 
         
         
-    return res;
+    return flag;
     
     }
+       public String asignarRolCliente (Cliente cliente) throws SQLException {
+           String msjError="";
+            
+             try {
+            ServiceLocator.MatarConexion();
+            String strSQL= "GRANT R_CLIENTE to "+cliente.getNombre();   
+            Connection conexion = ServiceLocator.getInstance().tomarConexion(user,contra);
+            Statement stm= conexion.createStatement();
+            stm.executeUpdate(strSQL);//ExecuteInmediate
+            stm.close();
+            //ServiceLocator.getInstance().commit(); Esto va en el ultimo proceso 
+        } catch (SQLException e) {
+             msjError="No pudo crear cliente " + e.getMessage();
+             //RHException("Cliente", e.getMessage() + "No se pudo crear el cliente");
+        } finally {
+            ServiceLocator.getInstance().liberarConexion();
+            ServiceLocator.MatarConexion();
+        }
+       return msjError;     
+        }
+       
         public String crearCliente (Cliente cliente) throws SQLException {
            String msjError="";
             
              try {
             String strSQL= "CREATE USER "+cliente.getNombre()+" IDENTIFIED BY "+cliente.getContrasena()+" DEFAULT TABLESPACE DEFUSUARIO TEMPORARY TABLESPACE TEMUSUARIO";     
+                            System.out.println("datos.RepresentanteDAO.crearCliente()"+user+"  asdasd"+contra);
+
             Connection conexion = ServiceLocator.getInstance().tomarConexion(user,contra);
             Statement stm= conexion.createStatement();
             stm.executeUpdate(strSQL);//ExecuteInmediate
             stm.close();
-            ServiceLocator.getInstance().commit();
+            //ServiceLocator.getInstance().commit(); Esto va en el ultimo proceso 
         } catch (SQLException e) {
              msjError="No pudo crear cliente " + e.getMessage();
              //RHException("Cliente", e.getMessage() + "No se pudo crear el cliente");
@@ -110,22 +137,22 @@ public class RepresentanteDAO {
     public String registrarCliente(Cliente cliente) throws SQLException { 
         String msj="";
         try {
-            String strSQL = "INSERT INTO NATAME.CLIENTE (ID_CLIENTE, NOMBRE, APELLIDO, TELEFONO, CONTRASENA, ID_REPRESENTANTE) VALUES(?,?,?,?,?,?)";
-            System.out.println("En Registrar Cliente " + user +" "+contra);
+            String strSQL = "INSERT INTO CLIENTES(CEDULA_CLIENTE, NOMBRE, APELLIDO, TELEFONO, CONTRASENA) VALUES(?,?,?,?,?)";
+            System.out.println("En Registrar Cliente chupameltrozo " + user +" "+contra);
             Connection conexion = ServiceLocator.getInstance().tomarConexion(user,contra);
             PreparedStatement prepStmt = conexion.prepareStatement(strSQL);
-            prepStmt.setInt(1, cliente.getId_cliente());
+            prepStmt.setInt(1, cliente.getCedula_cliente());
             prepStmt.setString(2, cliente.getNombre());
             prepStmt.setString(3, cliente.getApellido());
             prepStmt.setString(4, cliente.getTelefono());
             prepStmt.setInt(5, cliente.getContrasena());
-            prepStmt.setInt(6, cliente.getId_representante());
+           
             prepStmt.executeUpdate();
             prepStmt.close();
             ServiceLocator.getInstance().commit();
 
         } catch (SQLException e) {
-           //System.out.println(e.getMessage());
+           System.out.println("EN REGISTRAR CLIENTE "+e.getMessage());
             msj=e.getMessage();
         } finally {
             ServiceLocator.getInstance().liberarConexion();
@@ -138,8 +165,8 @@ public class RepresentanteDAO {
             String strSQL = "UPDATE NATAME.REPRESENTANTE_VENTA SET CONTRASENA = ? WHERE ID_REPRESENTANTE = ?";
             Connection conexion = ServiceLocator.getInstance().tomarConexion(user,contra);
             PreparedStatement prepStmt = conexion.prepareStatement(strSQL);
-            prepStmt.setInt(1, reprs.getContrasena());
-            prepStmt.setInt(2, reprs.getId_representante());
+            prepStmt.setString(1, reprs.getContrasena());
+            prepStmt.setInt(2, reprs.getCedula_representante());
             prepStmt.executeUpdate();
             prepStmt.close();
             ServiceLocator.getInstance().commit();

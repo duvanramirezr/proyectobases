@@ -2,19 +2,19 @@ package negocio;
 
 public class Cliente {
 
-    private int id_cliente;
+    private int cedula_cliente;
     private String nombre;
     private String apellido;
     private String telefono;
     private int contrasena;
-    private int id_representante;
+  
 
-    public int getId_cliente() {
-        return id_cliente;
+    public int getCedula_cliente() {
+        return cedula_cliente;
     }
 
-    public void setId_cliente(int id_cliente) {
-        this.id_cliente = id_cliente;
+    public void setCedula_cliente(int cedula_cliente) {
+        this.cedula_cliente = cedula_cliente;
     }
 
     public String getNombre() {
@@ -49,12 +49,6 @@ public class Cliente {
         this.contrasena = contrasena;
     }
 
-    public int getId_representante() {
-        return id_representante;
-    }
-
-    public void setId_representante(int id_representante) {
-        this.id_representante = id_representante;
-    }
+   
 
 }

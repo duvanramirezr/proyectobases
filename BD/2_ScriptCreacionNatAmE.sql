@@ -1,4 +1,4 @@
 
 CONNECT NATAME/NATAME
 
-START 'C:\Users\milto\Documents\Github\Natame\proyectobases\BD\SCRIPT_NATAME_FINAL.sql' 
+START 'C:\Users\aleja\Documents\Prueba 3\NatAmE\BD\SCRIPT_NATAME_FINAL.sql' 

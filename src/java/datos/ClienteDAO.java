@@ -31,12 +31,12 @@ public class ClienteDAO {
             prepStmt.setInt(1, id_cliente);
             ResultSet rs = prepStmt.executeQuery();
             if (rs.next()) {
-                c.setId_cliente(id_cliente);
+                c.setCedula_cliente(id_cliente);
                 c.setNombre(rs.getString("NOMBRE"));
                 c.setApellido(rs.getString("APELLIDO"));
                 c.setTelefono(rs.getString("TELEFONO"));
                 c.setContrasena(rs.getInt("CONTRASENA"));
-                c.setId_representante(rs.getInt("ID_REPRESENTANTE"));
+             
 
             } else {
                 JOptionPane.showMessageDialog(null, "No se encontro el cliente");
@@ -49,26 +49,27 @@ public class ClienteDAO {
         }
         return c;
     }
-    public String autenticacioCli(String nombre,String contraseña) {
+    public String autenticacioCli(String nombre,int contraseña) {
         Cliente cl = new Cliente();          
         PreparedStatement pst = null;
         ResultSet rs = null;
-        String msjError="error86587";
+        String msjError="1";
         
         try {
-            String strSQL = " SELECT * FROM CLIENTE WHERE NOMBRE = ? and CONTRASENA = ?";
+            String strSQL = " SELECT * FROM CLIENTES WHERE NOMBRE = ? and CONTRASENA = ?";
+             ServiceLocator.CambioRol(nombre, contraseña+"");
             Connection conexion = ServiceLocator.getInstance().tomarConexion(user,contra);
             pst = conexion.prepareStatement(strSQL);
             pst.setString(1,nombre);
-            pst.setString(2, contraseña);
+            pst.setInt(2, contraseña);
             rs = pst.executeQuery();        
           if(rs.next()){
           cl.setNombre(nombre);
-            msjError="1";
+        
           }
                  
         } catch (SQLException e) {
-           msjError="error";
+           msjError="Error autem"+e;
         }
         
         finally {
@@ -87,7 +88,7 @@ public class ClienteDAO {
             Connection conexion = ServiceLocator.getInstance().tomarConexion(user,contra);
             PreparedStatement prepStmt = conexion.prepareStatement(strSQL);
             prepStmt.setInt(1, cliente.getContrasena());
-            prepStmt.setInt(2, cliente.getId_cliente());
+            prepStmt.setInt(2, cliente.getCedula_cliente());
             prepStmt.executeUpdate();
             prepStmt.close();
             ServiceLocator.getInstance().commit();

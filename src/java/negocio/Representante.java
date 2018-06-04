@@ -2,21 +2,21 @@ package negocio;
 
 public class Representante {
 
-    private int id_representante;
+    private int cedula_representante;
     private String nombre;
     private String apellido;
     private String telefono;
-    private int contrasena;
+    private String contrasena;
     private int id_rep;
     private int id_region;
     private int id_clasificacion;
 
-    public int getId_representante() {
-        return id_representante;
+    public int getCedula_representante() {
+        return cedula_representante;
     }
 
-    public void setId_representante(int id_representante) {
-        this.id_representante = id_representante;
+    public void setCedula_representante(int cedula_representante) {
+        this.cedula_representante = cedula_representante;
     }
 
     public String getNombre() {
@@ -43,11 +43,11 @@ public class Representante {
         this.telefono = telefono;
     }
 
-    public int getContrasena() {
+    public String getContrasena() {
         return contrasena;
     }
 
-    public void setContrasena(int contrasena) {
+    public void setContrasena(String contrasena) {
         this.contrasena = contrasena;
     }
 

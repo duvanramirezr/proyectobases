@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.swing.JOptionPane;
 import negocio.Cliente;
-import negocio.Controlador;
+
 import negocio.Modelo;
 import util.RHException;
 
@@ -26,7 +26,7 @@ import util.RHException;
  *
  * @author Alejandro
   
- */@WebServlet(name = "Registrar", urlPatterns = {"/Registrar"})
+ */@WebServlet(name = "AgregarCliente", urlPatterns = {"/AgregarCliente"})
 public class AgregarCliente extends HttpServlet {
      private Cliente cliente;
        private Modelo model;
@@ -50,21 +50,23 @@ public class AgregarCliente extends HttpServlet {
     String apellido=request.getParameter("apellido");
     String telefono=request.getParameter("telefono");
     String contraseña=request.getParameter("contrasena");
-    String idrepresentante=request.getParameter("idrepresentante");
+
         PrintWriter out = response.getWriter();
         int id=Integer.parseInt(idcliente);
         int con= Integer.parseInt(contraseña);
-        int idrep=Integer.parseInt(idrepresentante);
+  
       
                        
-              
-            String reg2=  incluirCliente(id, nombre, apellido, telefono, con,idrep);
-             
-                     
+              System.out.println("servlet.AgregarCliente.processRequest() PRETENDO REGISTRARLO");
+             String reg2=  registrarCliente(nombre ,con); 
+             System.out.println("servlet.AgregarCliente.processRequest() LO REGISTRE Y LA RESPUESTA FUE "+reg2);
+                       
             if(reg2.equals("")){
-                String reg= registrarCliente(nombre ,con);   
-                //String reg="";
-
+                System.out.println("servlet.AgregarCliente.processRequest() AHORA QUIERO INCLUIIRLO");
+                String reg= incluirCliente(id, nombre, apellido, telefono, con);
+                 System.out.println("servlet.AgregarCliente.processRequest()LO INCLUI y me respondieron + "+ reg);           
+                String reg3=asignarRol(nombre);
+                System.out.println("servlet.AgregarCliente.processRequest()Le asigne un rol"+ reg3);
                 if(reg.equals("")){
                     //NOs devuelve a la vista  con un mensaje de exito
                     response.sendRedirect("servletRegistroCliente.jsp");
@@ -72,6 +74,7 @@ public class AgregarCliente extends HttpServlet {
                     //NOs devuelve a la vista  con un mensaje de error
                         request.getSession().setAttribute("reg1", reg);
                         response.sendRedirect("ErrorRegCli.jsp");
+                        //NEcesitamos un espacio de reg 3
                 }
                 
             }else{
@@ -84,14 +87,22 @@ public class AgregarCliente extends HttpServlet {
         
       //  c.incluirCliente(idcliente, nombre, apellido, telefono, contraseña, idrepresentante);
     }
-    public String  incluirCliente(int id_cliente, String nombre, String apellido, String telefono, int contrasena, int id_reprs) throws SQLException {
+    
+    public String asignarRol(String nombre) throws SQLException{
         cliente = new Cliente();
-        cliente.setId_cliente(id_cliente);
+        cliente.setNombre(nombre);
+    return  model.getInstance().getRdao().asignarRolCliente(cliente);
+    }
+    
+    public String  incluirCliente(int cedula_cliente, String nombre, String apellido, String telefono, int contrasena) throws SQLException {
+        cliente = new Cliente();
+        cliente.setCedula_cliente(cedula_cliente);
         cliente.setNombre(nombre);
         cliente.setApellido(apellido);
         cliente.setTelefono(telefono);
         cliente.setContrasena(contrasena);
-        cliente.setId_representante(id_reprs);
+        
+       
          return model.getInstance().getRdao().registrarCliente(cliente);
     }
      public String registrarCliente(String nombre, int contraseña)throws SQLException{

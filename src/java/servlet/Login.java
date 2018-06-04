@@ -7,12 +7,16 @@ package servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import negocio.Modelo;
+import negocio.Representante;
 
 /**
  *
@@ -33,7 +37,7 @@ public class Login extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
 
         PrintWriter out = response.getWriter();
@@ -56,9 +60,9 @@ public class Login extends HttpServlet {
        
 
         String err2 = autenticar(usuario, contrasena, cargo);
-        System.out.println("servlet.Login.processRequest() " + err2 );
+        System.out.println("servlet.Login.processRequest() esto es " + err2 );
         
-        if (err2.equals("")) {
+        if (err2.equals("true")) {
             response.sendRedirect("servletRegistroCliente.jsp");
             
         } else {
@@ -73,13 +77,16 @@ public class Login extends HttpServlet {
         }
     }
 
-    public String autenticar(String nombre, String contrasena, int perfil) {
+    public String autenticar(String nombre, String contrasena, int perfil) throws SQLException {
+        Representante auxRep=new Representante();
+        auxRep.setNombre(nombre);
+        auxRep.setContrasena(contrasena);
         String res="nada";
         if (perfil == 0) {
-            res = model.getInstance().getRdao().autenticacionrep(nombre, contrasena);
+            res = model.getInstance().getRdao().autenticacionrep(auxRep);
         } else {
             if (perfil == 1) {
-                res = model.getInstance().getCdao().autenticacioCli(nombre, contrasena);
+                res = model.getInstance().getCdao().autenticacioCli(nombre, Integer.parseInt(contrasena));
             } else {
                 res = "nada";
             }
@@ -100,7 +107,11 @@ public class Login extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -114,7 +125,11 @@ public class Login extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

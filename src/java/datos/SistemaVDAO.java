@@ -206,7 +206,7 @@ public class SistemaVDAO {
     public Venta_Producto ConsultarVentaProduc(int id_product) {
         Venta_Producto vp = new Venta_Producto();
         try {
-            String strSQL = "SELECT ID_PRODUCTO, CANTIDAD FROM NATAME.VENTA_PRODUCTO WHERE ID_PRODUCTO = ?";
+            String strSQL = "SELECT ID_PRODUCTO, CANTIDAD FROM VENTAS WHERE ID_PRODUCTO = ?";
             Connection conexion = ServiceLocator.getInstance().tomarConexion(user,contra);
             PreparedStatement prepStmt = conexion.prepareStatement(strSQL);
             prepStmt.setInt(1, id_product);
@@ -231,7 +231,7 @@ public class SistemaVDAO {
         try {
             
             
-            String strSQL = "UPDATE NATAME.INVENTARIO_PRODUCTO SET CANTIDAD = ? WHERE ID_PRODUCTO = ?" ;
+            String strSQL = "UPDATE INVENTARIOS SET CANTIDAD = ? WHERE ID_PRODUCTO = ?" ;
             Connection conexion = ServiceLocator.getInstance().tomarConexion(user,contra);
             PreparedStatement prepStmt = conexion.prepareStatement(strSQL);
             
@@ -258,7 +258,7 @@ public class SistemaVDAO {
          ArrayList<Producto> lista = new ArrayList<Producto>();
           
     try{
-        String strSQL = "SELECT * FROM NATAME.PRODUCTO";
+        String strSQL = "SELECT * FROM PRODUCTOS";
         Connection conexion = ServiceLocator.getInstance().tomarConexion(user,contra);   
          PreparedStatement prepStmt = conexion.prepareStatement(strSQL);
          

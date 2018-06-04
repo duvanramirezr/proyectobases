@@ -20,9 +20,9 @@ public class ServiceLocator {
 
     public static String URLBD = "jdbc:oracle:thin:@localhost:1521:XE";
 //Nos tocaria crear un rol basico con permiso de coenctar y consltar en la tabla de cliente
-    public  String usuario = "NATAME";
+    public static  String usuario ;
 
-    public  String contrasena = "NATAME";
+    public static  String contrasena ;
     
  
     /**
@@ -36,7 +36,7 @@ public class ServiceLocator {
     public static ServiceLocator getInstance() {
         if (instance == null) {
             try {
-                instance = new ServiceLocator();
+                instance = new ServiceLocator(usuario,contrasena);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -48,7 +48,7 @@ public class ServiceLocator {
     /**
      * @throws Exception dice si no se pudo crear la conexion
      */
-    private ServiceLocator() throws Exception {
+    private ServiceLocator(String user,String contra) throws Exception {
          System.out.println("entro");
             System.out.println(usuario);
             System.out.println(contrasena);
@@ -56,14 +56,15 @@ public class ServiceLocator {
             //usuario = JOptionPane.showInputDialog("Usuario: ");
             //contrasena = JOptionPane.showInputDialog("Contraseña: ");
             Class.forName(classfor);
-           
-            conexion = DriverManager.getConnection(URLBD, usuario, contrasena);
+            System.out.println("util.ServiceLocator.<init>()"+usuario+" "+ contrasena);
+            System.out.println("util.ServiceLocator.<init>( ) el user y la contra"+user + " contra "+ contra);
+            conexion = DriverManager.getConnection(URLBD, user, contra);
             conexion.setAutoCommit(false);
-        } catch (Exception e) {
-           
-            throw new RHException("ServiceLocator", "ERROR_CONEXION_BD " + e);
-         
-           
+            System.out.println("util.ServiceLocator.<init>()"+" que vergaaaaaaa");
+        } catch (SQLException e) {
+            System.out.println("util.ServiceLocator.<init>() en el catthc "+e.getMessage());
+           // throw new RHException("ServiceLocator", "ERROR_CONEXION_BD " + e);
+             
            
             
         }
@@ -76,7 +77,7 @@ public class ServiceLocator {
      */
     public synchronized Connection tomarConexion(String usu, String cont) {
         //Porsisal mal hice esto
-        CambioRol(usu,cont);
+       
         
         while (!conexionLibre) {
             try {
@@ -154,14 +155,28 @@ public class ServiceLocator {
         }
     }
 
-    private void CambioRol(String usu,String cont) {
-        
+    public static void CambioRol(String usu,String cont) {
         usuario=usu;
         contrasena=cont;
+         if (instance == null) {
+            try {
+                instance = new ServiceLocator(usu,cont);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+       
+        
        
         
         
        // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    public static void MatarConexion(){
+    if(instance!=null){
+        instance=null;}
+    }
+    
 
 }
