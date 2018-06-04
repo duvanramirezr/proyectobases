@@ -191,6 +191,12 @@ iframe {
 /*------------------------------------------------------------------
 [ Form ]*/
 
+.barra-tabla {
+  background-color: #B9039E;
+  color:white;
+}
+
+
 .login100-form {
   width: 100%;
   border-radius: 10px;

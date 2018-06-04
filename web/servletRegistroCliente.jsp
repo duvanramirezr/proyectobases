@@ -53,7 +53,7 @@
 
 					<div class="wrap-input100 validate-input" data-validate = "Enter idcliente">
                                         <!--CAMPO PARA PODER DIGITAR EL ID DEL CLIENTE-->
-						<input class="input100" type="text" name="idcliente" placeholder="id cliente">
+						<input class="input100" type="text" name="idcliente" placeholder="ID Cliente">
 						<span class="focus-input100" data-placeholder="&#xe82a;"></span>
 					</div>
 
@@ -79,6 +79,14 @@
 						<input class="input100" type="text" name="contrasena" placeholder="Contraseña">
 						<span class="focus-input100" data-placeholder="&#xe80f;"></span>
 					</div>
+<<<<<<< HEAD
+=======
+					<div class="wrap-input100 validate-input" data-validate="Enter idrepresentante">
+                                        <!--CAMPO PARA PODER DIGITAR EL ID DEL REPRESENTANTE QUE REGISTRA AL NUEVO CLIENTE-->
+						<input class="input100" type="text" name="idrepresentante" placeholder="ID Representante">
+						<span class="focus-input100" data-placeholder="&#xe82b;"></span>
+					</div>
+>>>>>>> a42ce4a4ac8f7185961346304e083c6958e5db53
 					<div class="container-login100-form-btn m-t-32">
                                         <!--BOTON QUE PERMITE ENVIAR A LA BASE DE DATOS LA INFORMACION QUE SE DIGITO EN LOS CAMPOS ANTERIORES PARA REALIZAR EL REGISTRO DEL NUEVO CLIENTE-->
 						<button class="login100-form-btn">
