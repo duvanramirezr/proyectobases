@@ -25,18 +25,18 @@ public class SistemaVDAO {
         this.contra = contra;
     }
      
-
+/*
     public void registrarRepresentante(Representante representante) throws RHException {
         try {
-
-            String strSQL = "INSERT INTO NATAME.REPRESENTANTE_VENTA (ID_REPRESENTANTE, NOMBRE, APELLIDO, TELEFONO, CONTRASENA, ID_REGION, ID_CLASIFICACION) VALUES (?,?,?,?,?,?,?)";
+ 
+            String strSQL = "INSERT INTO REPRESENTANTES (ID_REPRESENTANTE, NOMBRE, APELLIDO, TELEFONO, CONTRASENA, ID_REGION, ID_CLASIFICACION) VALUES (?,?,?,?,?,?,?)";
             Connection conexion = ServiceLocator.getInstance().tomarConexion(user,contra);
             PreparedStatement prepStmt = conexion.prepareStatement(strSQL);
             prepStmt.setInt(1, representante.getId_representante());
             prepStmt.setString(2, representante.getNombre());
             prepStmt.setString(3, representante.getApellido());
             prepStmt.setString(4, representante.getTelefono());
-            prepStmt.setInt(5, representante.getContrasena());
+            prepStmt.setInt(5, Integer.parseInt(representante.getContrasena());
             prepStmt.setInt(6, representante.getId_region());
             prepStmt.setInt(7, representante.getId_clasificacion());
             prepStmt.executeUpdate();
@@ -50,11 +50,11 @@ public class SistemaVDAO {
         }
 
     }
-
+*/
     public void registrarPago(Pago pago) throws RHException {
         try {
 
-            String strSQL = "INSERT INTO NATAME.PAGO (ID_PAGO, ID_METODO_PAGO, FECHA_PAGO) VALUES (?,?,?)";
+            String strSQL = "INSERT INTO PAGOS (ID_PAGO, ID_METODO_PAGO, FECHA_PAGO) VALUES (?,?,?)";
             Connection conexion = ServiceLocator.getInstance().tomarConexion(user,contra);
             PreparedStatement prepStmt = conexion.prepareStatement(strSQL);
             prepStmt.setInt(1, pago.getId_pago());
@@ -75,7 +75,7 @@ public class SistemaVDAO {
     public void registrarPedido(Pedido pedido) throws RHException {
         try {
 
-            String strSQL = "INSERT INTO NATAME.PEDIDO (ID_PEDIDO, ID_CLIENTE, TOTAL_PEDIDO, ID_PAGO, ESTADO, FECHA) VALUES (?,?,?,?,?,?)";
+            String strSQL = "INSERT INTO PEDIDOS (ID_PEDIDO, ID_CLIENTE, TOTAL_PEDIDO, ID_PAGO, ESTADO, FECHA) VALUES (?,?,?,?,?,?)";
             Connection conexion = ServiceLocator.getInstance().tomarConexion(user,contra);
             PreparedStatement prepStmt = conexion.prepareStatement(strSQL);
             prepStmt.setInt(1, pedido.getId_pedido());
@@ -183,7 +183,7 @@ public class SistemaVDAO {
      public Inventario_Producto ConsultarInventario(int id_product) {
         Inventario_Producto ip = new Inventario_Producto();
         try {
-            String strSQL = "SELECT ID_PRODUCTO, CANTIDAD FROM NATAME.REGION_PRODUCTO WHERE ID_PRODUCTO = ?";
+            String strSQL = "SELECT ID_PRODUCTO, CANTIDAD FROM PRODUCTOS WHERE ID_PRODUCTO = ?";
             Connection conexion = ServiceLocator.getInstance().tomarConexion(user,contra);
             PreparedStatement prepStmt = conexion.prepareStatement(strSQL);
             prepStmt.setInt(1, id_product);
@@ -290,7 +290,7 @@ public class SistemaVDAO {
     public  Producto obtenerProducto(int id_product) {
         Producto p = new Producto();
         try {
-            String strSQL = "SELECT ID_PRODUCTO, NOMBRE, ID_CATEGORIA, VALOR, DETALLE FROM NATAME.PRODUCTO  WHERE ID_PRODUCTO = ?";
+            String strSQL = "SELECT ID_PRODUCTO, NOMBRE, ID_CATEGORIA, VALOR, DETALLE FROM PRODUCTOS  WHERE ID_PRODUCTO = ?";
             Connection conexion = ServiceLocator.getInstance().tomarConexion(user,contra);
             PreparedStatement prepStmt = conexion.prepareStatement(strSQL);
             prepStmt.setInt(1, id_product);
@@ -314,7 +314,7 @@ public class SistemaVDAO {
     public void registrarProducto(Producto p) throws RHException {
         try {
 
-            String strSQL = "INSERT INTO NATAME.PRODUCTO (ID_PRODUCTO, NOMBRE, ID_CATEGORIA, VALOR, DETALLE) VALUES (?,?,?,?,?)";
+            String strSQL = "INSERT INTO PRODUCTOS (ID_PRODUCTO, NOMBRE, ID_CATEGORIA, VALOR, DETALLE) VALUES (?,?,?,?,?)";
             Connection conexion = ServiceLocator.getInstance().tomarConexion(user,contra);
             PreparedStatement prepStmt = conexion.prepareStatement(strSQL);
             prepStmt.setInt(1, p.getId_producto());
@@ -337,7 +337,7 @@ public class SistemaVDAO {
     
      public void actualizarProducto(Producto p) throws RHException {
         try {
-            String strSQL = "UPDATE NATAME.PRODUCTO SET NOMBRE = ?, ID_CATEGORIA = ?, VALOR = ?, DETALLE = ? WHERE ID_PRODUCTO = ?";
+            String strSQL = "UPDATE PRODUCTOS SET NOMBRE = ?, ID_CATEGORIA = ?, VALOR = ?, DETALLE = ? WHERE ID_PRODUCTO = ?";
             Connection conexion = ServiceLocator.getInstance().tomarConexion(user,contra);
             PreparedStatement prepStmt = conexion.prepareStatement(strSQL);
             prepStmt.setString(1, p.getNombre());

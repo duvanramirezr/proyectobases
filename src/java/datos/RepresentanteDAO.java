@@ -133,7 +133,7 @@ public class RepresentanteDAO {
         }
        return msjError;     
         }
-        
+       
     public String registrarCliente(Cliente cliente) throws SQLException { 
         String msj="";
         try {
