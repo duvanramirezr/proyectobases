@@ -34,7 +34,7 @@
         }
     }
     pago.setFecha_pago("05/06/2018");
-    int idped=104;
+    int idped=106;
     
         
     Pedido pedido = negocio.Modelo.getInstance().getSistemaVDAO().obtenerPedido(idped);

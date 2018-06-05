@@ -228,15 +228,15 @@ public class carritoServlet extends HttpServlet {
                 
             }
            
-           System.out.println("NoMbRe"+negocio.Modelo.getInstance().getCdao().consultarIDCliente().getNombre());
+       /*    System.out.println("NoMbRe"+negocio.Modelo.getInstance().getCdao().consultarIDCliente().getNombre());
             
             Cliente cliente = negocio.Modelo.getInstance().getCdao().consultarIDCliente();
             int cedula = cliente.getCedula_cliente();
-            System.out.println("CEDULA CLIENTE: "+ cedula);
+            System.out.println("CEDULA CLIENTE: "+ cedula);*/
             //Capturar pedido
              Pedido pedido = new Pedido();
                         //este parametro debe ser dinamico, es decir, se debe generar en la capa web
-             int idpedido=105; 
+             int idpedido=106; 
             
                         //como el que se loguea es el cliente, se debe guardar una variable con su id
                         //Y guardarla asi: int id_cliente = request.getParameter("idCliente");
@@ -258,7 +258,7 @@ public class carritoServlet extends HttpServlet {
 
            // SistemaVDAO.registrarPago(pago);
            System.out.println("rrrrrr"+pedido.getId_pedido());
-           System.out.println("rrrrrr"+pedido.getId_cliente());
+           System.out.println("ID CLIENTErrrrrr"+pedido.getId_cliente());
            System.out.println("rrrrrr"+pedido.getId_pago());
            System.out.println("rrrrrr"+pedido.getFecha());
            model.getInstance().getSistemaVDAO().registrarPedido(pedido);
