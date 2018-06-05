@@ -5,6 +5,7 @@
  */
 package servlet;
 
+import datos.ClienteDAO;
 import javax.servlet.http.HttpServlet;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.*;
 import javax.servlet.annotation.WebServlet;
+import negocio.Cliente;
 import negocio.Modelo;
 import negocio.Pago;
 import negocio.Pedido;
@@ -59,12 +61,14 @@ public class carritoServlet extends HttpServlet {
             throws ServletException, IOException, RHException {
         //La accion se va a guardar en un caja de texto oculto que nos dira que accion
         //debemos hacer
+         
         String accion = request.getParameter("accion");
         if (accion.equals("RegistrarProducto")) {
             this.registrarProducto(request, response);
         } else if (accion.equals("ModificarProducto")) {
             this.actualizarProducto(request, response);
         } else if (accion.equals("RealizarVenta")){
+           
            this.actualizarInvProducto(request, response);
            this.capturarVenta(request, response);
            // this.actualizarInvProducto(request, response);
@@ -110,9 +114,12 @@ public class carritoServlet extends HttpServlet {
           for (Producto p : lista) {
              Inventario_Producto inv = new Inventario_Producto();
              invAct = model.getInstance().getSistemaVDAO().ConsultarInventario(p.getId_producto());
+              System.out.println("ID prodc"+p.getId_producto());
              int cantidad = invAct.getCantidad() - 1;
              inv.setCantidad(cantidad);
+              System.out.println("Cantidad inv"+cantidad);
              inv.setProducto(p.getId_producto());
+            
              
              model.getInstance().getSistemaVDAO().actualizarInvProduc(inv);
               
@@ -148,7 +155,7 @@ public class carritoServlet extends HttpServlet {
       //  capturarVenta(request, response);
        
          
-      //  response.sendRedirect("pagoCarrito.jsp");
+      //response.sendRedirect("pagoCarrito.jsp");
         
     }
      
@@ -175,7 +182,7 @@ public class carritoServlet extends HttpServlet {
             Pago pago = new Pago();
              //este parametro debe ser dinamico, es decir, se debe generar tipo consecutivo
              //pero lo dejo estatico para el caso
-             pago.setId_pago(101);
+             pago.setId_pago(123);
            /*  if (request.getParameter("Metodo Pago") == "PSE") {
                  pago.setId_metodo_pago(101);
              } else {
@@ -221,23 +228,25 @@ public class carritoServlet extends HttpServlet {
                 
             }
            
-
-
+           System.out.println("NoMbRe"+negocio.Modelo.getInstance().getCdao().consultarIDCliente().getNombre());
+            
+            Cliente cliente = negocio.Modelo.getInstance().getCdao().consultarIDCliente();
+            int cedula = cliente.getCedula_cliente();
+            System.out.println("CEDULA CLIENTE: "+ cedula);
             //Capturar pedido
              Pedido pedido = new Pedido();
                         //este parametro debe ser dinamico, es decir, se debe generar en la capa web
-             int idpedido; 
+             int idpedido=105; 
             
-            pedido.setId_pedido(999);
-
                         //como el que se loguea es el cliente, se debe guardar una variable con su id
                         //Y guardarla asi: int id_cliente = request.getParameter("idCliente");
                         //y eso es lo que se pasa por parametro a setId_Cliente
-            pedido.setId_cliente(123456);
+            pedido.setId_cliente(7412);
+            pedido.setId_pedido(idpedido);
             pedido.setTotal_pedido((int) valor_final);
             pedido.setId_pago(pago.getId_pago());
             pedido.setEstado("EP");
-            pedido.setFecha("05/04/2018");
+            pedido.setFecha("05/06/2018");
             System.out.println("#####"+ pedido.getId_pedido());
             vp.setId_pedido(pedido.getId_pedido());
             System.out.println("========"+ vp.getId_pedido());
@@ -253,6 +262,7 @@ public class carritoServlet extends HttpServlet {
            System.out.println("rrrrrr"+pedido.getId_pago());
            System.out.println("rrrrrr"+pedido.getFecha());
            model.getInstance().getSistemaVDAO().registrarPedido(pedido);
+           idpedido = idpedido+5;
            model.getInstance().getSistemaVDAO().registrarVentaProduc(vp);
 
          

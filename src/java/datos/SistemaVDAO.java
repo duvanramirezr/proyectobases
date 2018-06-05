@@ -75,7 +75,7 @@ public class SistemaVDAO {
     public void registrarPedido(Pedido pedido) throws RHException {
         try {
 
-            String strSQL = "INSERT INTO PEDIDOS (ID_PEDIDO, ID_CLIENTE, TOTAL_PEDIDO, ID_PAGO, ESTADO, FECHA) VALUES (?,?,?,?,?,?)";
+            String strSQL = "INSERT INTO PEDIDOS (ID_PEDIDO, CEDULA_CLIENTE, TOTAL_PEDIDO, ID_PAGO, ESTADO, FECHA) VALUES (?,?,?,?,?,?)";
             Connection conexion = ServiceLocator.getInstance().tomarConexion(user,contra);
             PreparedStatement prepStmt = conexion.prepareStatement(strSQL);
             prepStmt.setInt(1, pedido.getId_pedido());
@@ -99,7 +99,7 @@ public class SistemaVDAO {
     public void registrarVentaProduc(Venta_Producto vp) throws RHException {
         try {
 
-            String strSQL = "INSERT INTO NATAME.VENTA_PRODUCTO (ID_PEDIDO, ID_PRODUCTO, CANTIDAD, TOTAL_PRODUCTO) VALUES (?,?,?,?)";
+            String strSQL = "INSERT INTO PRODUCTOS(ID_PEDIDO, ID_PRODUCTO, CANTIDAD, TOTAL_PRODUCTO) VALUES (?,?,?,?)";
             Connection conexion = ServiceLocator.getInstance().tomarConexion(user,contra);
             PreparedStatement prepStmt = conexion.prepareStatement(strSQL);
             prepStmt.setInt(1, vp.getId_pedido());
@@ -183,7 +183,7 @@ public class SistemaVDAO {
      public Inventario_Producto ConsultarInventario(int id_product) {
         Inventario_Producto ip = new Inventario_Producto();
         try {
-            String strSQL = "SELECT ID_PRODUCTO, CANTIDAD FROM PRODUCTOS WHERE ID_PRODUCTO = ?";
+            String strSQL = "SELECT ID_PRODUCTO, CANTIDAD FROM INVENTARIOS WHERE ID_PRODUCTO = ?";
             Connection conexion = ServiceLocator.getInstance().tomarConexion(user,contra);
             PreparedStatement prepStmt = conexion.prepareStatement(strSQL);
             prepStmt.setInt(1, id_product);
@@ -192,7 +192,7 @@ public class SistemaVDAO {
                 ip.setProducto(id_product);
                 ip.setCantidad(rs.getInt("Cantidad"));
             } else {
-                JOptionPane.showMessageDialog(null, "No se encontro inventario");
+               // JOptionPane.showMessageDialog(null, "No se encontro inventario");
             }
             rs.close();
         } catch (Exception e) {
@@ -235,7 +235,8 @@ public class SistemaVDAO {
             Connection conexion = ServiceLocator.getInstance().tomarConexion(user,contra);
             PreparedStatement prepStmt = conexion.prepareStatement(strSQL);
             
-           // ResultSet rs = prepStmt.executeQuery();
+           //ResultSet rs = prepStmt.executeQuery();
+          // prepStmt.executeQuery();
             //while(rs.next()){
                 System.out.println("Prueba1: " + ip.getCantidad());
                 prepStmt.setInt(1, ip.getCantidad());
@@ -354,6 +355,28 @@ public class SistemaVDAO {
             ServiceLocator.getInstance().liberarConexion();
         }
 
+    }
+     
+         public Pedido obtenerPedido(int id_pedido) {
+        Pedido p = new Pedido();
+        try {
+            String strSQL = "SELECT TOTAL_PEDIDO FROM PEDIDOS WHERE ID_PEDIDO = ?";
+            Connection conexion = ServiceLocator.getInstance().tomarConexion(user, contra);
+            PreparedStatement prepStmt = conexion.prepareStatement(strSQL);
+            prepStmt.setInt(1, id_pedido);
+            ResultSet rs = prepStmt.executeQuery();
+            while (rs.next()) {
+               
+                p.setTotal_pedido(rs.getInt("TOTAL_PEDIDO"));
+               
+            } 
+            rs.close();
+        } catch (Exception e) {
+            System.out.println("ERROR CONSULTANDO VENTA PRODUCTO: " + e.getMessage());
+        } finally {
+            ServiceLocator.getInstance().liberarConexion();
+        }
+        return p;
     }
 
 }

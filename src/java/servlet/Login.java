@@ -39,7 +39,7 @@ public class Login extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
-
+        
         PrintWriter out = response.getWriter();
         int cargo = 2;
         String usuario = request.getParameter("username");

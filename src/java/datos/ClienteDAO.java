@@ -13,19 +13,27 @@ import util.RHException;
 import util.ServiceLocator;
 
 public class ClienteDAO {
-    private String user="";
+    private  String user="";
     private String contra;
+    private String adminuser = "ADMINSISTEMA";
+    private String admincontra = "ADMINSISTEMA";
      public void setUser(String user) {
         this.user = user;
     }
 
+    public String getUser() {
+        return user;
+    }
+
+     
     public void setContra(String contra) {
         this.contra = contra;
     }
     public Cliente consultarCliente(int id_cliente) {
         Cliente c = new Cliente();
         try {
-            String strSQL = "SELECT ID_CLIENTE, NOMBRE, APELLIDO, TELEFONO, CONTRASENA, ID_REPRESENTANTE FROM NATAME.CLIENTE WHERE ID_CLIENTE = ?";
+            String strSQL = "SELECT CEDULA_CLIENTE, NOMBRE, APELLIDO, TELEFONO, CONTRASENA FROM CLIENTES WHERE ID_CLIENTE = ?";
+           // ServiceLocator.CambioRol(adminuser, admincontra);
             Connection conexion = ServiceLocator.getInstance().tomarConexion(user,contra);
             PreparedStatement prepStmt = conexion.prepareStatement(strSQL);
             prepStmt.setInt(1, id_cliente);
@@ -38,6 +46,35 @@ public class ClienteDAO {
                 c.setContrasena(rs.getInt("CONTRASENA"));
              
 
+            } else {
+                JOptionPane.showMessageDialog(null, "No se encontro el cliente");
+            }
+            rs.close();
+        } catch (Exception e) {
+            System.out.println("ERROR CONSULTANDO CLIENTE: " + e.getMessage());
+        } finally {
+            ServiceLocator.getInstance().liberarConexion();
+        }
+        return c;
+    }
+    public Cliente consultarIDCliente() {
+        Cliente c = new Cliente();
+      System.out.println("NOMBRE CLIENTE1: " + ServiceLocator.usuario);
+        try {
+            System.out.println("NOMBRE CLIENTE2: " + ServiceLocator.usuario);
+            String strSQL = "SELECT CEDULA_CLIENTE FROM CLIENTES WHERE NOMBRE = ?";             
+            Connection conexion = ServiceLocator.getInstance().tomarConexion(user,contra);
+            PreparedStatement prepStmt = conexion.prepareStatement(strSQL);
+            System.out.println("NOMBRE CLIENTE3: " + ServiceLocator.usuario);
+            prepStmt.setString(1,ServiceLocator.usuario);
+            
+            ResultSet rs = prepStmt.executeQuery();
+            //System.out.println("CC: "+rs.getInt("CEDULA_CLIENTE"));
+            if (rs.next()) {
+                
+                c.setCedula_cliente(rs.getInt("CEDULA_CLIENTE"));
+                c.setNombre(ServiceLocator.usuario);
+                                        
             } else {
                 JOptionPane.showMessageDialog(null, "No se encontro el cliente");
             }

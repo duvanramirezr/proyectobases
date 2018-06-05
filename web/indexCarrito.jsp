@@ -62,9 +62,9 @@
 				<span class="login100-form-title p-b-41">
 					LISTA DE PRODUCTOS
 				</span>
-				<form class="login100-form validate-form p-b-33 p-t-5" action="Registrar" method="post" >
+				
                                     <!--EN ESTA SECCION SE DEFININEN LA TABLA QUE TIENE LISTADO LOS PRODUCTOS DISPONIBLES-->
-        <form action="carritoServlet" method="post" >
+        <form class="login100-form validate-form p-b-33 p-t-5" action="carritoServlet" method="post" >
             <input type="hidden" name="accion" value="RealizarVenta" />
             <div>
                 <table border="1">
@@ -195,9 +195,10 @@
                 </table>		
                 <div class="container-login100-form-btn m-t-32">
                 <!--BOTON QUE PERMITE ENVIAR A LA BASE DE DATOS LA INFORMACION QUE SE ELIGIO EN LA TABLA PARA REALIZAR LA COMPRA-->
-                    <button class="login100-form-btn">
+                     <button class="login100-form-btn">
 			Realizar compra
                     </button>
+                
 		</div>
          </form>
 		</div>

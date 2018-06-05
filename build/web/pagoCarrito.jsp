@@ -34,13 +34,11 @@
         }
     }
     pago.setFecha_pago("05/06/2018");
-    int idped=5454554;
-    for(int i =0;i<10;i++){
-        idped++;
-    }
+    int idped=104;
+    
         
-    Pedido pedido = SistemaVDAO.obtenerPedido(999);
-
+    Pedido pedido = negocio.Modelo.getInstance().getSistemaVDAO().obtenerPedido(idped);
+    idped = idped +5;
 %>
 <html>
     <head>
@@ -56,12 +54,7 @@
         <a class="active" href="indexCarrito.jsp">Carro</a>
         <a class="active" href="registrarProductoCarrito.jsp">Registrar producto</a>
 </div>
-        <div>
-            <%-- Menu de opciones --%>
-            <a href="indexCarrito.jsp">Inicio</a> |
-            <a href="registrarProductoCarrito.jsp">Registrar Producto</a> |
-            
-        </div>
+        
         <br >
         <form action="carritoServlet" method="post">
             <input type="hidden" name="accion" value="RealizarPago" />
@@ -73,7 +66,7 @@
                     </tr>
                     <tr style="background-color: chocolate">
                         <td><center>Metodo de Pago</center></td>
-                        <td><center>Codigo</center></td>
+                        <%--<td><center>Codigo</center></td>--%>
                         <td><center>Valor Total</center></td>
                         <td><center>Fecha de Pago</center></td>
                         
@@ -86,8 +79,8 @@
                                 for (Producto p : lista) {
                     --%>
                     <tr>
-                        <td><center><select name="txtMetodo" heigth="5"><option value="PSE">PSE></option><option value="TCE">TCE</option></select></center></td>
-                        <td><input type="text" name="txtCodigoPago" value="" /></td>
+                        <td><center><select name="txtMetodo" heigth="5"><option value="PSE">PSE></option><option value="TARJETA">TARJETA</option></select></center></td>
+                       <%-- <td><input type="text" name="txtCodigoPago" value="" /></td>--%>
                         <td><input type="text" name="txtValor" value="<%=pedido.getTotal_pedido()%>" /></td>
                         <td><input type="text" name="txFecha" value="<%=pago.getFecha_pago()%>" /></td>
                        

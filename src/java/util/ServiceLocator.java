@@ -23,6 +23,10 @@ public class ServiceLocator {
     public static  String usuario ;
 
     public static  String contrasena ;
+
+    public static String getUsuario() {
+        return usuario;
+    }
     
  
     /**
